@@ -1,0 +1,66 @@
+<!Doctype html>
+<html>
+<!-- <head>
+	<title>My page</title>
+	<script></script>
+	<style></style>
+</head>
+ -->
+
+<body>
+	<h1>My First Programe</h1>
+	<p>Stopwatch</p>
+
+	<button onclick="play()">play</button>
+	<button onclick="pause()">pause</button>
+	<button onclick="stop()">stop</button>
+
+	<p id="watch"></p>
+
+	<p id="list"></p>
+
+	<script>
+		var list = [{
+			time: 0,
+			no: 0
+		}];
+		var start, total = 0;
+
+		function play() {
+			start = new Date();
+		}
+
+		function pause() {
+			total = new Date() - start + total;
+			document.getElementById("watch").innerHTML = total;
+
+		}
+
+		function stop() {
+			document.getElementById("watch").innerHTML = total;
+			saveData(total);
+			console.log("hey this is excecuted");
+			total = 0;
+			saveData();
+		}
+
+		function saveData(tot) {
+
+			var i = 0
+			list.push({
+				tim: tot,
+				no: i
+			});
+			i++;
+
+			list.forEach(function(e) {
+				console.log(e.time);
+				push = e.tim + " ";
+			}, push);
+			console.log(push);
+			document.getElementById('list').innerHTML = push;
+		}
+	</script>
+</body>
+
+</html>

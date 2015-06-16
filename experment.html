@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="result"></div>
+<input type="datetime" name="name" value="">
+<script>
+var txt = "";
+txt += "<p>Total width/height: " + screen.width + "*" + screen.height + "</p>";
+txt += "<p>Available width/height: " + screen.availWidth + "*" + screen.availHeight + "</p>";
+txt += "<p>Color depth: " + screen.colorDepth + "</p>";
+txt += "<p>Color resolution: " + screen.pixelDepth + "</p>";
+
+document.getElementById("result").innerHTML = txt;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title><b>Input form</b></title>
+  </head>
+  <body>
+    <input type="number"  id="1" >
+    <input type="number"  id="2" >
+    <button type="button" name="multiply" onclick="mul()">multi</button>
+    <button type="button" name="divide" onclick="div()">divide</button>
+    <p id="5" ></p>
+    <script type="text/javascript">
+    function mul(){
+    document.getElementById("5").innerHTML=document.getElementById("1").value*document.getElementById("2").value;}
+    function div(){
+    document.getElementById("5").innerHTML=document.getElementById("1").value/document.getElementById("2").value;
+}
+    </script>
+
+  </body>
+</html>

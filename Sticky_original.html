@@ -1,0 +1,79 @@
+<html>
+
+<head>
+  <h1>Sticky notes</h1>
+  <style>
+    .newProperty {
+      border: 1px solid black;
+      height: 200px;
+      width: 150px;
+      overflow: auto;
+    }
+
+    .parent {
+      height: 200px;
+      width: 150px;
+      position: relative;
+    }
+
+    .closePropperty {
+      margin-top: 0px;
+      float: right;
+      height: 12px;
+      width: 12px;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="button" onclick="add_note()" value="add">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript">
+    var i = 0;
+
+    function add_note() {
+      var colour = ['green', 'yellow', 'orange', "magenta", "pink", "grey"];
+      var doc = document.createElement("div");
+      doc.className = "newProperty";
+      doc.setAttribute("contenteditable", "true");
+      doc.style.resize = "both";
+      doc.id = "a" + i;
+      doc.style.background = colour[Math.floor(Math.random() * colour.length)];
+
+      var close = document.createElement("span");
+      close.className = "closePropperty";
+      var t = document.createTextNode("X");
+      close.addEventListener("click", function(e) {
+        this.parentNode.parentNode.removeChild(this.parentNode);
+      });
+      close.appendChild(t);
+
+      var parent = document.createElement("div");
+      parent.className = "parent";
+      parent.appendChild(doc)
+      parent.appendChild(close);
+      document.body.insertBefore(parent, document.getElementById("1"));
+      $((function() {
+        $("#a" + i).parent().draggable().on('click', function() {
+          $(this).draggable({
+            disabled: false
+          });
+        }).on('dblclick', function() {
+          $(this).draggable({
+            disabled: true
+          });
+        });
+      })());
+      i++;
+    }
+  </script>
+
+  <span id="1"></span>
+
+</body>
+
+</html>

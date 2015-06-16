@@ -1,0 +1,193 @@
+<html>
+
+<head>
+  <style type="text/css">
+  .left-top
+{
+float:left;
+width:30%;
+font-size: 25px;
+
+}
+.right-top
+{
+float:right;
+width:30%;
+font-size: 25px;
+}
+.center-top
+{
+margin:auto;
+width:30%;
+font-size: 25px;
+}
+  .left-column
+{
+float:left;
+width:30%;
+font-size: 18px;
+
+}
+.right-column
+{
+float:right;
+width:30%;
+font-size: 18px;
+}
+.center-column
+{
+margin:auto;
+width:30%;
+font-size: 18px;
+}
+
+  </style>
+
+  <script type="text/javascript">
+    var upcoming = [],ongoing = [],completed = [];
+    localStorage.setItem("comp", JSON.stringify(completed));
+    localStorage.setItem("ongo", JSON.stringify(ongoing));
+    localStorage.setItem("upco", JSON.stringify(upcoming));
+
+    function startTime() {
+      var today = new Date();
+      document.getElementById('clock').innerHTML = ("" + today).slice(4, 21);
+      if (ongoing.length != 0 && ongoing[0].e <= today.getTime()) {
+        completed.push(ongoing.shift());
+
+        var k = "";
+        for (var q = 0; q < ongoing.length; q++)
+          k += print(ongoing[q]) + '<br>';
+        document.getElementById("2").innerHTML = k;
+        k = "";
+        for (var q = 0; q < completed.length; q++)
+          k += print(completed[q]) + '<br>';
+        document.getElementById("3").innerHTML = k;
+
+      }
+      if (upcoming.length != 0 && upcoming[0].s <= today.getTime()) {
+        ongoing.push(upcoming.shift());
+        ongoing.sort(function(a, b) {
+          return a.e - b.e;
+        });
+
+        var k = "";
+        for (var q = 0; q < ongoing.length; q++)
+          k += print(ongoing[q]) + '<br>';
+        document.getElementById("2").innerHTML = k;
+        k = "";
+        for (var q = 0; q < upcoming.length; q++)
+          k += print(upcoming[q]) + '<br>';
+        document.getElementById("1").innerHTML = k;
+      }
+      var t = setTimeout(function() {
+        startTime()
+      }, 1000);
+    }
+  </script>
+</head>
+
+<body onload="startTime()">
+  <div align="center">Task Scheduler </div>
+  <p id="clock"></p>
+
+  <table style="width:800px">
+    <tr>
+      <td style="width:250px">
+        Start date and time:
+      </td>
+      <td style="width:250px">
+        <input type="datetime-local" id="s">
+      </td style="width:250px">
+    </tr>
+    <tr>
+      <td style="width:250px">
+        End date and time:
+      </td>
+      <td style="width:250px">
+        <input type="datetime-local" id="e">
+      </td>
+    </tr>
+  </table>
+  <div align="center">
+    <button type="button" onclick="Onsubmit()">Submit</button>
+    <p id="result"></p>
+  </div>
+  <script type="text/javascript">
+    function val(s, e) {
+      this.s = s;
+      this.e = e;
+    }
+
+    function print(obj) {
+      return (new Date(obj.s)).getMinutes() + " to " + (new Date(obj.e)).getMinutes();
+    }
+
+    function Onsubmit() {
+      var st = "" + document.getElementById("s").value;
+      var et = "" + document.getElementById("e").value;
+      var sObject = (new Date(st.slice(0, 4), st.slice(5, 7), st.slice(8, 10), st.slice(11, 13), st.slice(14, 16), 0, 0)).getTime();
+      var eObject = (new Date(et.slice(0, 4), et.slice(5, 7), et.slice(8, 10), et.slice(11, 13), et.slice(14, 16), 0, 0)).getTime();
+      if (sObject > eObject)
+        return;
+
+      var enter_data = new val(sObject, eObject);
+      var now = (new Date()).getTime();
+      if (now < sObject && now < eObject) {
+        upcoming = JSON.parse(localStorage.getItem("upco"));
+        upcoming[upcoming.length] = enter_data;
+        upcoming.sort(function(a, b) {
+          return a.s - b.s;
+        });
+        localStorage.setItem("upco", JSON.stringify(upcoming))
+        var k = "";
+        for (var q = 0; q < upcoming.length; q++)
+          k += print(upcoming[q]) + '<br>';
+
+        document.getElementById("1").innerHTML = k;
+      } else if (now > sObject && now < eObject) {
+
+        ongoing = JSON.parse(localStorage.getItem("ongo"));
+        ongoing[ongoing.length] = enter_data;
+        ongoing.sort(function(a, b) {
+          return a.e - b.e;
+        });
+
+        localStorage.setItem("ongo", JSON.stringify(ongoing))
+
+        var k = "";
+        for (var q = 0; q < ongoing.length; q++)
+          k += print(ongoing[q]) + '<br>';
+        document.getElementById("2").innerHTML = k;
+
+      } else if (now > sObject && now > eObject) {
+        completed = JSON.parse(localStorage.getItem("comp"));
+        completed[completed.length] = enter_data;
+        localStorage.setItem("comp", JSON.stringify(completed))
+
+        var k = "";
+        for (var q = 0; q < completed.length; q++)
+          k += print(completed[q]) + '<br>';
+        document.getElementById("3").innerHTML = k;
+      }
+    }
+  </script>
+  <br>
+  <br>
+  <br>
+  <div>
+    <div class="left-top">Upcoming</div>
+    <div class="center-top">OnGoing</div>
+    <div class="right-top">Completed</div>
+    <div class="left-column" id="1"></div>
+    <div class="center-column" id="2"></div>
+    <div class="right-column" id="3"></div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  </form>
+</body>
+
+</html>

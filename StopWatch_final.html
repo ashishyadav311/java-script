@@ -1,0 +1,105 @@
+<!Doctype html>
+<html>
+
+<head>
+	<style>
+		.custom {
+			width: 78px !important;
+		}
+	</style>
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div align="center" class="">
+		<input type="button" id="1" value="play" onclick="toggle(this);" class="btn btn-primary custom">
+		<button onclick="stop()" class="btn btn-primary custom">stop</button>
+		<button onclick="reset()" class="btn btn-danger custom">reset</button>
+	</div>
+	<table class="table">
+		<thead>
+			<!--       <tr>
+  <th>Hours</th>
+  <th>Minutes</th>
+  <th>Second</th>
+</tr> -->
+		</thead>
+		<tbody>
+			<p id="watch"></p>
+			<tr>
+			</tr>
+		</tbody>
+	</table>
+	<script>
+		var start;
+		var now;
+		var h = 0;
+		var m = 0;
+		var s = 0;
+		var myvar;
+
+		function disp() {
+			s++;
+			if (s >= 60) {
+				m++;
+				s = 0;
+			}
+			if (m >= 60) {
+				h++;
+				m = 0;
+			}
+			document.getElementById("watch").innerHTML = "<div align=\"center\"><b><font size=\"1000\"> " + h + " : " + m + " : " + s + "</font></b></div>";
+		}
+
+		function play() {
+			myvar = setInterval(function() {
+				disp()
+			}, 1000)
+		}
+
+		function pause() {
+			clearInterval(myvar);
+		}
+
+		function stop() {
+			clearInterval(myvar);
+			document.getElementById("1").value = "play";
+
+			s = 0;
+			h = 0;
+			m = 0;
+		}
+
+		function toggle(button) {
+			if (document.getElementById("1").value == "play") {
+				document.getElementById("1").value = "pause";
+				play();
+			} else if (document.getElementById("1").value == "pause") {
+				document.getElementById("1").value = "play";
+				pause();
+			}
+		}
+
+		function reset() {
+			clearInterval(myvar);
+			document.getElementById("1").value = "play";
+			document.getElementById("watch").innerHTML = "<table border=\"1\" style=\"width:100%\" ><div align=\"center\"><b><font size=\"1000\"> 0 : 0 : 0 </font></b></div></table>";
+			//		document.getElementById("watch").innerHTML = 0 + ":" + 0 + ":" + 0;
+		}
+	</script>
+</body>
+
+</html>

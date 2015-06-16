@@ -1,0 +1,95 @@
+<!Doctype html>
+<html>
+
+<head>
+  <title>Bootstrap Example of Stopwatch</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <p>Stopwatch</p>
+  <input type="button" id="1" value="play" onclick="toggle(this);">
+  <button onclick="stop()">stop</button>
+  <button onclick="reset()">reset</button>
+
+  <p id="watch"></p>
+  <script>
+    var start;
+    var now;
+    var h = 0;
+    var m = 0;
+    var s = 0;
+    var myvar;
+
+    function disp() {
+      s++;
+      if (s >= 60) {
+        m++;
+        s = 0;
+      }
+      if (m >= 60) {
+        h++;
+        m = 0;
+      }
+      document.getElementById("watch").innerHTML = h + ":" + m + ":" + s;
+    }
+
+    function play() {
+      myvar = setInterval(function() {
+        disp()
+      }, 1000)
+    }
+
+    function pause() {
+      clearInterval(myvar);
+    }
+
+    function stop() {
+      clearInterval(myvar);
+      s = 0;
+      h = 0;
+      m = 0;
+    }
+
+    function toggle(button) {
+      if (document.getElementById("1").value == "play") {
+        document.getElementById("1").value = "pause";
+        play();
+      } else if (document.getElementById("1").value == "pause") {
+        document.getElementById("1").value = "play";
+        pause();
+      }
+    }
+
+    function reset() {
+      clearInterval(myvar);
+      document.getElementById("1").value = "play";
+      document.getElementById("watch").innerHTML = 0 + ":" + 0 + ":" + 0;
+    }
+  </script>
+  <div class="container">
+
+    <h2>Stopwatch</h2>
+    <div class="progress progress-striped">
+      <div class="progress-bar minute" role="progressbar" aria-valuenow="32" aria-valuemin="0" aria-valuemax="59" style="width: 100%;">
+        <span class="sr-only">Minutes</span>
+      </div>
+    </div>
+    <div class="progress progress-striped">
+      <div class="progress-bar second" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="59" style="width: 100%;">
+        <span class="sr-only">Second</span>
+      </div>
+    </div>
+    <div class="progress progress-striped">
+      <div class="progress-bar progress-bar-custom" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+        <span class="sr-only">60% Complete</span>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
