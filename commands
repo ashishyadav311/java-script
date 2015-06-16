@@ -1,6 +1,0 @@
-to avoid adminstrator
-sudo su -
-
-
-x.addEventListener("click", myFunction);
-For older browser x.attachEvent("onclick", myFunction)
